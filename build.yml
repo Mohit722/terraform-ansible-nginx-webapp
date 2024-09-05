@@ -1,0 +1,51 @@
+- name: Setup Web Server
+  hosts: all
+  become: yes
+  tasks:
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+
+    - name: Install Git
+      apt:
+        name: git
+        state: present
+
+    - name: Clone GitHub Repository
+      git:
+        repo: 'https://github.com/Mohit722/blog-web-app.git'
+        dest: /tmp/your-blog
+        version: master
+
+    - name: Remove default Nginx page
+      file:
+        path: /var/www/html/index.nginx-debian.html
+        state: absent
+
+    - name: Copy files to Nginx directory
+      copy:
+        src: /tmp/your-blog/
+        dest: /var/www/html/
+        mode: '0755'
+        remote_src: yes
+
+    - name: Set permissions for web files
+      file:
+        path: /var/www/html/
+        owner: www-data
+        group: www-data
+        mode: '0755'
+        recurse: yes
+
+    - name: Remove the Git clone directory
+      file:
+        path: /tmp/your-blog
+        state: absent
+
+    - name: Restart Nginx
+      service:
+        name: nginx
+        state: restarted
+        enabled: yes
