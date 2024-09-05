@@ -26,12 +26,12 @@ variable "BuildUser" {
 
 variable "SecurityGroupID" {
   description = "Security Group ID"
-  default     = "sg-0a4b86efefd9999b7"
+  default     = "sg-0a4b86dfsfekj9999b7"
 }
 
 variable "AnsibleControllerIP" {
   description = "Ansible Controller IP"
-  default     = "172.31.11.61"
+  default     = "172.37.14.69"
 }
 
 # EC2 Instance Configuration
